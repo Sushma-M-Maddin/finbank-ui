@@ -28,13 +28,10 @@
 
     <!-- Profile & Actions -->
     <div class="header-actions">
-      <div class="account-badge">
-        <div class="acc-text hidden-tablet">
+      <div class="account-badge" routerLink="/profile" title="View Profile">
+        <div class="acc-text">
           <span class="label">ACCOUNT NO.</span>
           <span class="val">{{customer?.accountNo || '-----'}}</span>
-        </div>
-        <div class="avatar" routerLink="/profile" title="View Profile">
-          {{ profile?.firstName ? profile.firstName.charAt(0).toUpperCase() : 'U' }}
         </div>
       </div>
     </div>
@@ -46,25 +43,21 @@
     <!-- Sidebar -->
     <aside class="sidebar" [class.closed]="!sidebarOpen">
       <div class="welcome-banner">
-        Welcome back, <br /><strong>{{ profile?.firstName || 'User' }} 👋</strong>
+        Welcome back, <br /><strong>{{ customer?.customerName || customer?.username || 'User' }} 👋</strong>
       </div>
       <nav class="menu">
-        <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-          <span class="icon">📊</span> Dashboard
+        <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dashboard
         </a>
-        <a routerLink="/profile" routerLinkActive="active">
-          <span class="icon">👤</span> My Profile
+        <a routerLink="/profile" routerLinkActive="active">My Profile
         </a>
-        <a routerLink="/loans/apply" routerLinkActive="active">
-          <span class="icon">📝</span> Apply Loan
+        <a routerLink="/loans/apply" routerLinkActive="active">Apply Loan
         </a>
-        <a routerLink="/emi-calculator" routerLinkActive="active">
-          <span class="icon">🧮</span> EMI Calculator
+        <a routerLink="/emi-calculator" routerLinkActive="active">EMI Calculator
         </a>
       </nav>
       <div class="sidebar-footer">
         <a (click)="logout()" class="logout-btn">
-          <span class="icon">🚪</span> Logout
+          🚪 Logout
         </a>
       </div>
     </aside>

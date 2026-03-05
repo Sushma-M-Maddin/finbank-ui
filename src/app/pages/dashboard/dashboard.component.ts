@@ -14,7 +14,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   customer: any;
 
   heroImages: string[] = [
-    '/assets/car-hero.png'
+    '/assets/hero-section.png'
   ];
   currentImageIndex: number = 0;
   imageInterval: any;

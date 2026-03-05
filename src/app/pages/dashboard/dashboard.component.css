@@ -41,7 +41,8 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1000;
+    z-index: 1100;
+    /* Higher than sidebar for mobile toggle access */
 }
 
 /* Brand Section (Hamburger + Logo) */
@@ -69,6 +70,16 @@ body {
 .hamburger-toggle:hover {
     background: rgba(255, 255, 255, 0.15);
     color: #ffffff;
+}
+
+/* Ensure hamburger is visible on mobile even if something else hides it */
+@media (max-width: 768px) {
+    .hamburger-toggle {
+        display: flex !important;
+        position: relative;
+        z-index: 1200;
+        color: #ffffff !important;
+    }
 }
 
 .brand {
@@ -115,11 +126,11 @@ body {
     border-radius: 6px;
 }
 
-/* Pronounced background highlight on hover as requested */
+/* White background + blue text on hover/active for nav links */
 .global-nav a:hover,
 .global-nav a.active {
-    background: rgba(255, 255, 255, 0.15);
-    color: #ffffff;
+    background: #ffffff;
+    color: #4f46e5;
 }
 
 /* Profile & Actions */
@@ -280,15 +291,27 @@ body {
 .logout-btn {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    color: #ef4444;
+    justify-content: center;
+    gap: 0.6rem;
+    color: #ffffff;
     cursor: pointer;
-    font-weight: 500;
-    transition: color 0.2s;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    padding: 0.7rem 1.2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    background: #dc2626;
+    border: none;
+    letter-spacing: 0.3px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .logout-btn:hover {
-    color: #dc2626;
+    background: #b91c1c;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
 }
 
 /* ========================================== CONTENT WRAPPER ========================================== */
@@ -588,7 +611,6 @@ section {
     border: 1px solid #e2e8f0;
     transition: all 0.2s;
     margin-top: auto;
-    /* Push to bottom */
     align-self: flex-start;
 }
 
@@ -869,8 +891,9 @@ section {
     .sidebar {
         transform: translateX(-100%);
         z-index: 1050;
-        top: 0;
-        height: 100vh;
+        top: 70px;
+        /* Stay below header */
+        height: calc(100vh - 70px);
     }
 
     .sidebar:not(.closed) {

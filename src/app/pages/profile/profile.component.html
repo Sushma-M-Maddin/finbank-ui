@@ -1,6 +1,6 @@
 <div class="profile-layout">
 
-    <!-- FIXED TOP HEADER (matches dashboard) -->
+    <!-- FIXED TOP HEADER -->
     <header class="profile-header">
         <div class="header-brand-section">
             <div class="brand">
@@ -25,6 +25,12 @@
 
     <!-- PAGE BODY -->
     <div class="profile-body">
+
+        <!-- Toast Notification -->
+        <div *ngIf="toastMessage" class="profile-toast" [class.toast-success]="toastType === 'success'"
+            [class.toast-error]="toastType === 'error'">
+            <span>{{ toastMessage }}</span>
+        </div>
 
         <!-- Left: Profile Summary Panel -->
         <aside class="profile-sidebar">
@@ -76,19 +82,24 @@
                 </div>
             </div>
 
-            <!-- Account Info Card -->
+            <!-- Account Info Card (VIEW ONLY) -->
             <div class="profile-card">
                 <div class="card-header-row">
                     <div class="card-icon-wrap">🆔</div>
-                    <div>
+                    <div class="card-header-text">
                         <h2 class="card-title">Account Information</h2>
                         <p class="card-subtitle">Your registered banking account details</p>
                     </div>
                 </div>
+
                 <div class="data-grid">
                     <div class="data-item">
                         <span class="data-label">Full Name</span>
                         <span class="data-value">{{ customer?.customerName || 'N/A' }}</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="data-label">Username</span>
+                        <span class="data-value">{{ customer?.username || 'N/A' }}</span>
                     </div>
                     <div class="data-item">
                         <span class="data-label">Account Number</span>
@@ -109,7 +120,7 @@
                 </div>
             </div>
 
-            <!-- KYC DETAILS CARD (existing user, view mode) -->
+            <!-- KYC DETAILS CARD -->
             <div *ngIf="profileExists && !editMode" class="profile-card kyc-card">
                 <div class="card-header-row">
                     <div class="card-icon-wrap">✅</div>
@@ -150,7 +161,7 @@
                 </div>
             </div>
 
-            <!-- KYC FORM (new user — complete KYC) -->
+            <!-- KYC FORM -->
             <div *ngIf="!profileExists" class="profile-card kyc-card">
                 <div class="card-header-row">
                     <div class="card-icon-wrap pending">📝</div>
@@ -182,8 +193,9 @@
                             <select [(ngModel)]="kyc.ifsc" name="ifsc" required>
                                 <option value="" disabled selected>Select a branch</option>
                                 <option value="FINBANKKAR001">FINBANKKAR001 (Karnataka)</option>
-                                <option value="FINBANKTN001">FINBANKTN001 (Tamil Nadu)</option>
-                                <option value="FINBANKMH001">FINBANKMH001 (Maharashtra)</option>
+                                <option value="FINBANKHYD001">FINBANKHYD001 (Hyderabad)</option>
+                                <option value="FINBANKCHE001">FINBANKCHE001 (Chennai)</option>
+                                <option value="FINBANKMUM001">FINBANKMUM001 (Mumbai)</option>
                             </select>
                         </div>
                         <div class="input-group">
@@ -231,8 +243,9 @@
                             <label>Branch IFSC Code</label>
                             <select [(ngModel)]="kyc.ifsc" name="ifsc" required>
                                 <option value="FINBANKKAR001">FINBANKKAR001 (Karnataka)</option>
-                                <option value="FINBANKTN001">FINBANKTN001 (Tamil Nadu)</option>
-                                <option value="FINBANKMH001">FINBANKMH001 (Maharashtra)</option>
+                                <option value="FINBANKHYD001">FINBANKHYD001 (Hyderabad)</option>
+                                <option value="FINBANKCHE001">FINBANKCHE001 (Chennai)</option>
+                                <option value="FINBANKMUM001">FINBANKMUM001 (Mumbai)</option>
                             </select>
                         </div>
                         <div class="input-group">

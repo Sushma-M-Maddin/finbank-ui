@@ -12,6 +12,7 @@ export class LoginComponent {
 
   loginData: any = {};
   accountType: string = 'Customer';
+  errorMessage: string = '';
 
   constructor(
 
@@ -22,6 +23,7 @@ export class LoginComponent {
 
   login() {
 
+    this.errorMessage = '';
     this.service.login(this.loginData)
 
       .subscribe({
@@ -33,9 +35,17 @@ export class LoginComponent {
         error: (err) => {
           console.error("Login Error:", err);
           if (err.status === 0) {
-            alert("Unable to connect to the server. Please ensure the backend is running.");
+            this.errorMessage = "Unable to connect to the server. Please ensure the backend is running.";
           } else {
-            alert("Login failed. Please check your credentials.");
+            // Fetch error message from backend if available
+            const backendError = err.error;
+            if (backendError && typeof backendError === 'string') {
+              this.errorMessage = backendError;
+            } else if (backendError && backendError.message) {
+              this.errorMessage = backendError.message;
+            } else {
+              this.errorMessage = "Login failed. Please check your credentials.";
+            }
           }
         }
       });

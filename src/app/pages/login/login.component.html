@@ -70,6 +70,12 @@
                         name="password" required>
                 </div>
 
+                <!-- Inline error message (replaces browser alert popup) -->
+                <div *ngIf="errorMessage" class="inline-error-box">
+                    <span class="error-icon">⚠</span>
+                    <span>{{ errorMessage }}</span>
+                </div>
+
                 <button type="submit" [disabled]="!loginForm.form.valid" class="full-width submit-btn"
                     style="margin-top: 1.5rem;">
                     Sign In →

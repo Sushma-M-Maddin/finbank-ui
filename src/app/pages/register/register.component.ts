@@ -15,6 +15,8 @@ export class RegisterComponent {
   accountType: string = 'Customer';
   registrationSuccess: boolean = false;
   newAccountNumber: string = "Pending Validation...";
+  confirmPassword: string = '';
+  errorMessage: string = '';
 
   constructor(
 
@@ -26,17 +28,35 @@ export class RegisterComponent {
   register() {
 
     console.log("Sending Payload: ", this.customer);
+    this.errorMessage = '';
 
     this.service.register(this.customer)
       .subscribe({
         next: (res: any) => {
           this.registrationSuccess = true;
-          this.newAccountNumber = res.accountNo || "Generated Successfully";
+
+          // Debug what exactly we are getting
+          console.log("Registration Response:", res);
+
+          if (res && res.accountNo) {
+            this.newAccountNumber = res.accountNo;
+          } else if (typeof res === 'string' && res.includes('{')) {
+            try {
+              const parsed = JSON.parse(res);
+              this.newAccountNumber = parsed.accountNo || "Check Email";
+            } catch (e) {
+              this.newAccountNumber = "Check Email";
+            }
+          } else if (typeof res === 'string' && res.length > 5) {
+            this.newAccountNumber = res;
+          } else {
+            this.newAccountNumber = "Check Email";
+          }
         },
         error: (err) => {
           console.error("Registration Error:", err);
 
-          // Workaround: The backend saves the user in the database successfully, but crashes 
+          // Workaround: The backend saves the user in the database successfully, but crashes
           // with a 400 "Authentication failed" error when trying to send the Welcome Email
           // due to SMTP mail configuration issues. We can treat this as a success.
           if (err.status === 400 && err.error === "Authentication failed") {
@@ -46,11 +66,26 @@ export class RegisterComponent {
           }
 
           if (err.status === 0) {
-            alert("Unable to connect to the server. Please ensure the backend is running.");
-          } else if (err.error && typeof err.error === 'string') {
-            alert("Registration failed: " + err.error);
+            this.errorMessage = "Unable to connect to the server. Please ensure the backend is running.";
           } else {
-            alert("Registration failed. Please try again.");
+            const backendError = err.error;
+            let raw = "";
+
+            if (backendError && typeof backendError === 'string') {
+              raw = backendError;
+            } else if (backendError && backendError.message) {
+              raw = backendError.message;
+            }
+
+            if (raw) {
+              if (raw.toLowerCase().includes('username') && raw.toLowerCase().includes('exist')) {
+                this.errorMessage = "Username already taken. Please choose a different username.";
+              } else {
+                this.errorMessage = raw;
+              }
+            } else {
+              this.errorMessage = "Registration failed. Please try again.";
+            }
           }
         }
       });

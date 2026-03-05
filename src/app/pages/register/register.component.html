@@ -66,7 +66,7 @@
                     <div class="input-group">
                         <label for="regUsername">USERNAME</label>
                         <input id="regUsername" placeholder="johndoe" [(ngModel)]="customer.username" name="username"
-                            required>
+                            required (ngModelChange)="errorMessage = ''">
                     </div>
 
                     <div class="input-group">
@@ -91,9 +91,14 @@
 
                     <div class="input-group">
                         <label for="confirmPassword">CONFIRM PASSWORD</label>
-                        <input id="confirmPassword" type="password" placeholder="••••••••" ngModel
+                        <input id="confirmPassword" type="password" placeholder="••••••••" [(ngModel)]="confirmPassword"
                             name="confirmPassword" required>
                     </div>
+                </div>
+
+                <div *ngIf="customer.password && confirmPassword && customer.password !== confirmPassword"
+                    style="color: #ef4444; font-size: 0.8rem; margin-top: -0.5rem; margin-bottom: 1rem; font-weight: 600;">
+                    ⚠ Passwords do not match
                 </div>
 
                 <div class="terms-group mt-4">
@@ -102,7 +107,14 @@
                         and <a href="#">Privacy Policy</a></label>
                 </div>
 
-                <button type="submit" [disabled]="!registerForm.form.valid" class="spacer-lg full-width submit-btn">
+                <!-- Inline error message (replaces browser alert popup) -->
+                <div *ngIf="errorMessage" class="inline-error-box">
+                    <span class="error-icon">⚠</span>
+                    <span>{{ errorMessage }}</span>
+                </div>
+
+                <button type="submit" [disabled]="!registerForm.form.valid || customer.password !== confirmPassword"
+                    class="spacer-lg full-width submit-btn">
                     Create Account
                 </button>
 
@@ -122,15 +134,24 @@
                 <h2 style="color: #1e293b;">Registration Complete!</h2>
                 <p class="text-subtle">Welcome to FinBank. Your premium account has been successfully created.</p>
 
+                <!-- Simplified Success Box -->
                 <div class="account-number-box mt-4 mb-4"
-                    style="padding: 2rem; background: #f8fafc; border-radius: var(--radius-md); border: 1px dashed #cbd5e1; margin: 2rem 0;">
-                    <span class="label"
-                        style="display: block; font-size: 0.75rem; font-weight: 600; color: #64748b; letter-spacing: 0.05em; margin-bottom: 0.5rem;">YOUR
-                        ACCOUNT NUMBER</span>
-                    <div class="large-value"
-                        style="font-size: 2rem; font-weight: 700; color: var(--primary); font-family: monospace;">
-                        {{newAccountNumber}}</div>
-                    <p class="text-small text-subtle mt-2">Use this number for your first deposit.</p>
+                    style="padding: 2rem; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0; margin: 2rem 0; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+
+                    <ng-container *ngIf="newAccountNumber !== 'Check Email'">
+                        <span class="label"
+                            style="display: block; font-size: 0.75rem; font-weight: 700; color: #64748b; letter-spacing: 0.05em; margin-bottom: 0.5rem; text-transform: uppercase;">YOUR
+                            ACCOUNT NUMBER</span>
+                        <div class="large-value"
+                            style="font-size: 2.25rem; font-weight: 800; color: #4f46e5; font-family: 'Inter', monospace; letter-spacing: 1px;">
+                            {{newAccountNumber}}</div>
+                    </ng-container>
+
+                    <p class="text-small" style="color: #1e293b; font-weight: 600; margin-top: 1rem; font-size: 1rem;">
+                        📧 A welcome email has been sent to your registered address with your account details.
+                    </p>
+                    <p class="text-subtle mt-2" style="font-size: 0.85rem;">Please check your inbox (and spam folder)
+                        for further instructions.</p>
                 </div>
 
                 <button routerLink="/" class="full-width submit-btn">

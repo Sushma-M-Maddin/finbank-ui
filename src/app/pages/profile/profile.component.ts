@@ -10,70 +10,51 @@ import { ProfileService } from '../../services/profile.service';
 export class ProfileComponent implements OnInit {
 
     customer: any = {};
-
     kyc: any = {};
-
     profileExists = false;
     editMode = false;
+    toastMessage: string = '';
+    toastType: 'success' | 'error' = 'success';
+
     constructor(private service: ProfileService) { }
 
     ngOnInit() {
-
-        // Load Account Info
-
         this.service.getCustomer()
-
             .subscribe((data: any) => {
-
                 this.customer = data;
-
                 console.log("Customer:", data);
-
             });
-
-
-        // Load KYC Details
 
         this.service.getProfile()
-
             .subscribe({
-
                 next: (data: any) => {
-
                     this.kyc = data;
-
                     this.profileExists = true;
-
                     console.log("KYC:", data);
-
                 },
-
-                error: (err) => {
-
+                error: (err: any) => {
                     this.profileExists = false;
-
                     console.log("No KYC Yet");
-
                 }
-
             });
-
     }
 
+    showToast(message: string, type: 'success' | 'error' = 'success') {
+        this.toastMessage = message;
+        this.toastType = type;
+        setTimeout(() => { this.toastMessage = ''; }, 2000);
+    }
 
     createProfile() {
         this.service.createProfile(this.kyc).subscribe({
             next: (res: any) => {
-                alert("Profile Created Successfully!");
-                location.reload();
+                this.showToast('Profile created successfully! ✓');
+                setTimeout(() => location.reload(), 2000);
             },
-            error: (err) => {
+            error: (err: any) => {
                 console.error("Profile Creation Error:", err);
-                if (err.status === 0) {
-                    alert("Unable to connect to the server.");
-                } else {
-                    alert("Failed to create profile. Please check the details.");
-                }
+                const msg = err.error?.message || err.error || 'Failed to create profile.';
+                this.showToast(msg, 'error');
             }
         });
     }
@@ -81,18 +62,14 @@ export class ProfileComponent implements OnInit {
     updateProfile() {
         this.service.updateProfile(this.kyc).subscribe({
             next: (res: any) => {
-                alert("Profile Updated Successfully!");
+                this.showToast('Profile updated successfully! ✓');
                 this.editMode = false;
             },
-            error: (err) => {
+            error: (err: any) => {
                 console.error("Profile Update Error:", err);
-                if (err.status === 0) {
-                    alert("Unable to connect to the server.");
-                } else {
-                    alert("Failed to update profile.");
-                }
+                const msg = err.error?.message || err.error || 'Failed to update profile.';
+                this.showToast(msg, 'error');
             }
         });
     }
-
 }
