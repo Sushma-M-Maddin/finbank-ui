@@ -491,12 +491,12 @@ section {
 
 .vehicle-grid {
     display: grid;
-    /* Force 3 columns natively to fit the 6 items perfectly */
-    grid-template-columns: repeat(3, 1fr);
+    /* 2x2 layout for the 4 vehicle types */
+    grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
 }
 
-/* 1100px ensures it holds the 3-column frame against the sidebar for a long time */
+/* Maintain 2 columns until mobile breakpoint */
 @media (max-width: 1100px) {
     .vehicle-grid {
         grid-template-columns: repeat(2, 1fr);

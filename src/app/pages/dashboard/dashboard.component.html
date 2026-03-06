@@ -23,7 +23,7 @@
       <a href="/dashboard#vehicles">Vehicle Types</a>
       <a href="/dashboard#features">Features &amp; Benefits</a>
       <a routerLink="/emi-calculator">EMI Calculator</a>
-      <a routerLink="/loans/apply">Apply Loan</a>
+      <a routerLink="/loans/products">Apply Loan</a>
     </nav>
 
     <!-- Profile & Actions -->
@@ -50,7 +50,9 @@
         </a>
         <a routerLink="/profile" routerLinkActive="active">My Profile
         </a>
-        <a routerLink="/loans/apply" routerLinkActive="active">Apply Loan
+        <a routerLink="/loans/products" routerLinkActive="active">Apply Loan
+        </a>
+        <a routerLink="/loans/history" routerLinkActive="active">Loan History
         </a>
         <a routerLink="/emi-calculator" routerLinkActive="active">EMI Calculator
         </a>
@@ -74,7 +76,7 @@
             <p>Whether it's a sleek sedan, a powerful bike, or heavy machinery, FinBank offers up to 100% on-road
               financing with minimal documentation.</p>
             <div class="hero-actions">
-              <button class="btn-primary" routerLink="/loans/apply">Apply Now</button>
+              <button class="btn-primary" routerLink="/loans/products">Apply Now</button>
               <button class="btn-secondary" routerLink="/emi-calculator">Calculate EMI</button>
             </div>
           </div>
@@ -90,73 +92,50 @@
             <div class="vehicle-grid">
 
               <!-- Car -->
-              <div class="vehicle-card" routerLink="/loans/apply">
+              <div class="vehicle-card" [routerLink]="['/loans/apply']" [queryParams]="{ type: 'CAR_LOAN' }">
                 <div class="v-img-placeholder">
                   <img src="/assets/car-loan.png" alt="Car Loans" class="vehicle-card-img">
                 </div>
                 <div class="v-content">
                   <h4>Car Loans</h4>
-                  <p>Rates starting at 7.5% p.a.</p>
+                  <p>Rates starting at 9.0% p.a.</p>
                   <span class="link-text">Apply →</span>
                 </div>
               </div>
 
               <!-- Bike -->
-              <div class="vehicle-card" routerLink="/loans/apply">
+              <div class="vehicle-card" [routerLink]="['/loans/apply']" [queryParams]="{ type: 'BIKE_LOAN' }">
                 <div class="v-img-placeholder">
                   <img src="/assets/bike-loan.png" alt="Two-Wheeler Loans" class="vehicle-card-img">
                 </div>
                 <div class="v-content">
                   <h4>Two-Wheeler Loans</h4>
-                  <p>Rates starting at 8.2% p.a.</p>
+                  <p>Rates starting at 11.5% p.a.</p>
                   <span class="link-text">Apply →</span>
                 </div>
               </div>
 
               <!-- Commercial -->
-              <div class="vehicle-card" routerLink="/loans/apply">
+              <div class="vehicle-card" [routerLink]="['/loans/apply']"
+                [queryParams]="{ type: 'COMMERCIAL_VEHICLE_LOAN' }">
                 <div class="v-img-placeholder">
                   <img src="/assets/truck-loan.png" alt="Commercial Vehicles" class="vehicle-card-img">
                 </div>
                 <div class="v-content">
                   <h4>Commercial Vehicles</h4>
-                  <p>Rates starting at 8.9% p.a.</p>
+                  <p>Rates starting at 10.5% p.a.</p>
                   <span class="link-text">Apply →</span>
                 </div>
               </div>
 
-              <!-- EV Vehicles -->
-              <div class="vehicle-card teal-accent" routerLink="/loans/apply">
+              <!-- Used Vehicles -->
+              <div class="vehicle-card" [routerLink]="['/loans/apply']" [queryParams]="{ type: 'USED_VEHICLE_LOAN' }">
                 <div class="v-img-placeholder">
-                  <img src="/assets/ev-loan.png" alt="Electric Vehicles" class="vehicle-card-img">
+                  <img src="/assets/car-hero.png" alt="Used Vehicles" class="vehicle-card-img">
                 </div>
                 <div class="v-content">
-                  <h4>Electric Vehicles (EVs)</h4>
-                  <p>Green financing from 6.9% p.a.</p>
-                  <span class="link-text">Apply →</span>
-                </div>
-              </div>
-
-              <!-- Agricultural Vehicles -->
-              <div class="vehicle-card" routerLink="/loans/apply">
-                <div class="v-img-placeholder">
-                  <img src="/assets/tractor-loan.png" alt="Tractors &amp; Farm Equipment" class="vehicle-card-img">
-                </div>
-                <div class="v-content">
-                  <h4>Tractors &amp; Farm Vehicles</h4>
-                  <p>Special schemes from 7.2% p.a.</p>
-                  <span class="link-text">Apply →</span>
-                </div>
-              </div>
-
-              <!-- Construction Equipment -->
-              <div class="vehicle-card" routerLink="/loans/apply">
-                <div class="v-img-placeholder">
-                  <img src="/assets/construction-loan.png" alt="Construction Equipment" class="vehicle-card-img">
-                </div>
-                <div class="v-content">
-                  <h4>Construction Vehicles</h4>
-                  <p>Heavy machinery from 8.5% p.a.</p>
+                  <h4>Used Vehicle Loans</h4>
+                  <p>Pre-owned financing from 14.0% p.a.</p>
                   <span class="link-text">Apply →</span>
                 </div>
               </div>

@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.startImageCarousel();
 
-    // Fetch customer details to get the account number
+    // Fetch customer details
     this.customerService.getCustomer()
       .subscribe({
         next: (data) => {
@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         error: (err) => console.error("Failed to load customer details", err)
       });
 
-    // Fetch KYC profile which might not exist for new users
+    // Fetch KYC profile
     this.service.getProfile()
       .subscribe({
         next: (data) => {
@@ -49,14 +49,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-
     localStorage.removeItem("token");
-
     this.router.navigate(['/']);
-
   }
 
-  sidebarOpen = true;
+  sidebarOpen = false;
 
   toggleSidebar() {
     this.sidebarOpen = !this.sidebarOpen;
